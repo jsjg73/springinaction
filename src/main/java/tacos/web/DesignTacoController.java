@@ -36,14 +36,14 @@ public class DesignTacoController {
 		);
 
 
-		Function<Ingredient, String> function = ingredient -> ingredient.getType().name().toLowerCase();
+		Function<Ingredient, String> ingredientToTypeNameLowerCase =
+				ingredient -> ingredient.getType().name().toLowerCase();
+
 		Map<String, List<Ingredient>> typeListMap =
 				ingredients.stream()
-				           .collect(groupingBy(ingredient -> ingredient.getType().name().toLowerCase()));
-
+				           .collect(groupingBy(ingredientToTypeNameLowerCase));
 
 		model.addAllAttributes(typeListMap);
-
 		return "design";
 	}
 }
