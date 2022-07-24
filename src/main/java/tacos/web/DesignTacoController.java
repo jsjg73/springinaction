@@ -36,13 +36,9 @@ public class DesignTacoController {
 			new Ingredient("SRCR", "Sour Cream", Type.SAUCE)
 		);
 
-
-		Function<Ingredient, String> ingredientToTypeNameLowerCase =
-				ingredient -> ingredient.getType().name().toLowerCase();
-
 		Map<String, List<Ingredient>> ingredientsByTypeName =
 				ingredients.stream()
-				           .collect(groupingBy(ingredientToTypeNameLowerCase));
+				           .collect(groupingBy(Ingredient::getLowerCaseTypeName));
 
 		model.addAllAttributes(ingredientsByTypeName);
 		model.addAttribute("taco", new Taco());
