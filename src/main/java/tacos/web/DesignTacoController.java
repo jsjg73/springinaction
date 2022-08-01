@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
@@ -43,5 +44,13 @@ public class DesignTacoController {
 		model.addAllAttributes(ingredientsByTypeName);
 		model.addAttribute("taco", new Taco());
 		return "design";
+	}
+
+	@PostMapping
+	public String processDesign(Taco design){
+		// 타코 디자인을 저장한다.
+		// 3장에서 작성한다.
+		log.info("Processing design: " + design);
+		return "redirect:/orders/current";
 	}
 }

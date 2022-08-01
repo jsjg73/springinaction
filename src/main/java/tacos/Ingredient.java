@@ -16,6 +16,6 @@ public class Ingredient {
 	}
 
 	public String getLowerCaseTypeName(){
-		return type.name();
+		return type.name().toLowerCase();
 	}
 }
