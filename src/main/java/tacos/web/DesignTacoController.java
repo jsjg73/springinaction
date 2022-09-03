@@ -77,12 +77,9 @@ public class DesignTacoController {
 			return "design";
 		}
 
-		// 타코 디자인을 저장한다.
-		// 3장에서 작성한다.
-		log.info("Processing design: " + design);
-
 		Taco saved = tacoRepository.save(design);
 		order.addDesign(saved);
+
 		return "redirect:/orders/current";
 	}
 }
