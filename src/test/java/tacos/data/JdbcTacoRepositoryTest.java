@@ -4,16 +4,16 @@ import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import tacos.Ingredient;
 import tacos.Taco;
 
 import java.util.Date;
 
-@SpringBootTest
+@DataJpaTest
 class JdbcTacoRepositoryTest {
     @Autowired
-    private JdbcTacoRepository jdbcTacoRepository;
+    private TacoRepository tacoRepository;
 
     @Autowired
     private IngredientRepository ingredientRepository;
@@ -23,10 +23,10 @@ class JdbcTacoRepositoryTest {
         Taco taco = new Taco();
         taco.setName("name");
         taco.setCreatedAt(new Date());
-        Ingredient flto = ingredientRepository.findById("FLTO");
+        Ingredient flto = ingredientRepository.findById("FLTO").get();
         taco.setIngredients(Lists.newArrayList(flto));
 
-        Taco save = jdbcTacoRepository.save(taco);
+        Taco save = tacoRepository.save(taco);
 
         Assertions.assertNotNull(save);
 
