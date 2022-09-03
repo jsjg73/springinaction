@@ -1,14 +1,15 @@
 package tacos.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import javax.sql.DataSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -25,18 +26,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .httpBasic();
     }
 
+//    @Autowired
+//    DataSource dataSource;
+
     @Autowired
-    DataSource dataSource;
+    private UserDetailsService userDetailsService;
+
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception { // 사용자 인증 정보 구성하는 메서드
+//        auth
+//          .jdbcAuthentication()
+//          .dataSource(dataSource)
+//          .usersByUsernameQuery(
+//                  "SELECT username, password, enabled FROM users WHERE username=?")
+//          .authoritiesByUsernameQuery(
+//                  "SELECT username, authority FROM authorities WHERE username=?")
+//          .passwordEncoder(new NoEncodingPasswordEncoder());
+
         auth
-          .jdbcAuthentication()
-          .dataSource(dataSource)
-          .usersByUsernameQuery(
-                  "SELECT username, password, enabled FROM users WHERE username=?")
-          .authoritiesByUsernameQuery(
-                  "SELECT username, authority FROM authorities WHERE username=?")
-          .passwordEncoder(new NoEncodingPasswordEncoder());
+          .userDetailsService(userDetailsService)
+          .passwordEncoder(encoder());
     }
 }
