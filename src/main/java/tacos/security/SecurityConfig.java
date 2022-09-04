@@ -20,10 +20,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 사용자 등록을 위한 페이지와 인증된 사용자를 위한 페이지에 다른 접근 권한을 설정한다.
 
         http
-        .authorizeRequests()
-          .antMatchers("/design", "/orders")
-            .access("hasRole('ROLE_USER')")
-          .antMatchers("/", "/**").access("permitAll");
+                .authorizeRequests()
+                .antMatchers("/design", "/orders")
+                .access("hasRole('ROLE_USER')")
+                .antMatchers("/", "/**").access("permitAll")
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/authenticate")
+                .usernameParameter("user")
+                .passwordParameter("pwd")
+                .defaultSuccessUrl("/design");
 
         // 표현식을 사용할 때 장점.
         // '화요일의 타코 생성은 ROLE_USER 권한을 갖는 사용자에게만 허용하고 싶다'는 가상의 스토리
