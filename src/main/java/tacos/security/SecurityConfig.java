@@ -30,7 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/authenticate")
                 .usernameParameter("user")
                 .passwordParameter("pwd")
-                .defaultSuccessUrl("/design");
+                .defaultSuccessUrl("/design")
+
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+
+                .and()
+                .csrf();
 
         // 표현식을 사용할 때 장점.
         // '화요일의 타코 생성은 ROLE_USER 권한을 갖는 사용자에게만 허용하고 싶다'는 가상의 스토리
