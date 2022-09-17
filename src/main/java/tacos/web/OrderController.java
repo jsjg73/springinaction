@@ -3,6 +3,7 @@ import javax.validation.Valid;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
@@ -16,7 +17,7 @@ import tacos.data.OrderRepository;
 @SessionAttributes("order")
 public class OrderController {
 
-    private OrderRepository orderRepo;
+    private final OrderRepository orderRepo;
 
     public OrderController(OrderRepository orderRepo) {
         this.orderRepo = orderRepo;
@@ -64,4 +65,9 @@ public class OrderController {
         return "redirect:/";
     }
 
+    @GetMapping
+    public String ordersForUser(@AuthenticationPrincipal User user, Model model){
+        model.addAttribute("orders", orderRepo.findByUserOrderByPlacedAtDesc(user));
+        return "orderList";
+    }
 }
